@@ -84,16 +84,16 @@ document.querySelectorAll('.feature-card, .subject-card, .step').forEach(el => {
 document.querySelectorAll('.btn-download').forEach(button => {
     button.addEventListener('click', (e) => {
         // Add download analytics here if needed
-        console.log('APK Download initiated');
-        
+        console.log('APK Download initiated via Google Drive');
+
         // Show download started message
-        showNotification('Download started! Check your downloads folder.', 'success');
-        
+        showNotification('Redirecting to Google Drive for download...', 'success');
+
         // Track download event (you can integrate with Google Analytics here)
         if (typeof gtag !== 'undefined') {
             gtag('event', 'download', {
                 'event_category': 'APK',
-                'event_label': 'UK Exam Pro APK',
+                'event_label': 'UK Exam Pro APK - Google Drive',
                 'value': 1
             });
         }
@@ -105,7 +105,7 @@ function showNotification(message, type = 'info') {
     // Remove existing notifications
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
-    
+
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -116,7 +116,7 @@ function showNotification(message, type = 'info') {
             <button class="notification-close">&times;</button>
         </div>
     `;
-    
+
     // Add styles
     notification.style.cssText = `
         position: fixed;
@@ -132,13 +132,13 @@ function showNotification(message, type = 'info') {
         transition: transform 0.3s ease;
         max-width: 350px;
     `;
-    
+
     notification.querySelector('.notification-content').style.cssText = `
         display: flex;
         align-items: center;
         gap: 10px;
     `;
-    
+
     notification.querySelector('.notification-close').style.cssText = `
         background: none;
         border: none;
@@ -147,21 +147,21 @@ function showNotification(message, type = 'info') {
         cursor: pointer;
         margin-left: auto;
     `;
-    
+
     // Add to page
     document.body.appendChild(notification);
-    
+
     // Animate in
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
-    
+
     // Close button functionality
     notification.querySelector('.notification-close').addEventListener('click', () => {
         notification.style.transform = 'translateX(400px)';
         setTimeout(() => notification.remove(), 300);
     });
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         if (notification.parentNode) {
@@ -176,7 +176,7 @@ document.querySelectorAll('.feature-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
         card.style.transform = 'translateY(-10px) scale(1.02)';
     });
-    
+
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'translateY(-10px) scale(1)';
     });
@@ -187,7 +187,7 @@ document.querySelectorAll('.subject-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
         card.style.transform = 'translateY(-5px) scale(1.02)';
     });
-    
+
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'translateY(-5px) scale(1)';
     });
@@ -197,14 +197,14 @@ document.querySelectorAll('.subject-card').forEach(card => {
 function animateCounters() {
     const counters = document.querySelectorAll('.stat-number');
     const speed = 200; // The lower the slower
-    
+
     counters.forEach(counter => {
         const updateCount = () => {
             const target = +counter.getAttribute('data-target') || +counter.innerText.replace('+', '');
             const count = +counter.innerText.replace('+', '');
-            
+
             const inc = target / speed;
-            
+
             if (count < target) {
                 counter.innerText = Math.ceil(count + inc) + '+';
                 setTimeout(updateCount, 1);
@@ -212,7 +212,7 @@ function animateCounters() {
                 counter.innerText = target + '+';
             }
         };
-        
+
         updateCount();
     });
 }
@@ -237,7 +237,7 @@ document.querySelectorAll('img').forEach(img => {
     img.addEventListener('load', () => {
         img.style.opacity = '1';
     });
-    
+
     img.style.opacity = '0';
     img.style.transition = 'opacity 0.3s ease';
 });
@@ -248,7 +248,7 @@ document.addEventListener('keydown', (e) => {
         // Close mobile menu if open
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
-        
+
         // Close any notifications
         document.querySelectorAll('.notification').forEach(notification => {
             notification.style.transform = 'translateX(400px)';
@@ -263,7 +263,7 @@ document.querySelectorAll('a, button').forEach(element => {
         element.style.outline = '2px solid #2196F3';
         element.style.outlineOffset = '2px';
     });
-    
+
     element.addEventListener('blur', () => {
         element.style.outline = 'none';
     });
@@ -281,7 +281,7 @@ if ('IntersectionObserver' in window) {
             }
         });
     });
-    
+
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });
@@ -300,7 +300,7 @@ For technical support or queries, contact the developer.
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('UK Exam Pro landing page loaded successfully!');
-    
+
     // Add any initialization code here
     showNotification('Welcome to UK Exam Pro! Download the app to start your preparation.', 'info');
 });
