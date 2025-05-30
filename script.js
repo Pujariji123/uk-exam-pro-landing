@@ -66,17 +66,30 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            if (entry.target.classList.contains('screenshot-card')) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0) scale(1)';
+            } else {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
         }
     });
 }, observerOptions);
 
-// Observe all feature cards, subject cards, screenshot cards, and steps
-document.querySelectorAll('.feature-card, .subject-card, .screenshot-card, .step').forEach(el => {
+// Observe all feature cards, subject cards, and steps
+document.querySelectorAll('.feature-card, .subject-card, .step').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
+
+// Special staggered animation for screenshot cards
+document.querySelectorAll('.screenshot-card').forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(50px) scale(0.9)';
+    el.style.transition = `opacity 0.8s ease ${index * 0.1}s, transform 0.8s ease ${index * 0.1}s`;
     observer.observe(el);
 });
 
@@ -193,14 +206,34 @@ document.querySelectorAll('.subject-card').forEach(card => {
     });
 });
 
-// Screenshot card hover effects
+// Enhanced screenshot card effects
 document.querySelectorAll('.screenshot-card').forEach(card => {
+    const img = card.querySelector('.screenshot-img');
+
     card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
+        card.style.transform = 'translateY(-15px) scale(1.02)';
+        card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+        if (img) {
+            img.style.transform = 'scale(1.05)';
+            img.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
+        }
     });
 
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(-10px) scale(1)';
+        card.style.transform = 'translateY(0) scale(1)';
+        card.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)';
+        if (img) {
+            img.style.transform = 'scale(1)';
+            img.style.boxShadow = 'none';
+        }
+    });
+
+    // Click effect for mobile
+    card.addEventListener('click', () => {
+        card.style.transform = 'translateY(-5px) scale(0.98)';
+        setTimeout(() => {
+            card.style.transform = 'translateY(0) scale(1)';
+        }, 150);
     });
 });
 
@@ -243,14 +276,21 @@ if (heroSection) {
     heroObserver.observe(heroSection);
 }
 
-// Add loading animation for images
+// Enhanced image loading with shimmer effect
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('load', () => {
         img.style.opacity = '1';
+        img.classList.add('loaded');
     });
 
     img.style.opacity = '0';
-    img.style.transition = 'opacity 0.3s ease';
+    img.style.transition = 'opacity 0.5s ease';
+
+    // If image is already cached and loaded
+    if (img.complete) {
+        img.style.opacity = '1';
+        img.classList.add('loaded');
+    }
 });
 
 // Keyboard navigation support
