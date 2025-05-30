@@ -72,8 +72,8 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all feature cards, subject cards, and steps
-document.querySelectorAll('.feature-card, .subject-card, .step').forEach(el => {
+// Observe all feature cards, subject cards, screenshot cards, and steps
+document.querySelectorAll('.feature-card, .subject-card, .screenshot-card, .step').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -190,6 +190,17 @@ document.querySelectorAll('.subject-card').forEach(card => {
 
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'translateY(-5px) scale(1)';
+    });
+});
+
+// Screenshot card hover effects
+document.querySelectorAll('.screenshot-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px) scale(1.02)';
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(-10px) scale(1)';
     });
 });
 
