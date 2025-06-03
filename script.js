@@ -96,19 +96,34 @@ document.querySelectorAll('.screenshot-card').forEach((el, index) => {
 // Download button click tracking
 document.querySelectorAll('.btn-download').forEach(button => {
     button.addEventListener('click', (e) => {
-        // Add download analytics here if needed
-        console.log('APK Download initiated via Google Drive');
+        const href = button.getAttribute('href');
 
-        // Show download started message
-        showNotification('Redirecting to Google Drive for download...', 'success');
+        if (href && href.includes('indusapp.store')) {
+            // Indus App Store download
+            console.log('App download initiated via Indus App Store');
+            showNotification('Redirecting to Indus App Store...', 'success');
 
-        // Track download event (you can integrate with Google Analytics here)
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'download', {
-                'event_category': 'APK',
-                'event_label': 'UK Exam Pro APK - Google Drive',
-                'value': 1
-            });
+            // Track Indus App Store download event
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'download', {
+                    'event_category': 'Indus App Store',
+                    'event_label': 'UK Exam Pro - Indus App Store',
+                    'value': 1
+                });
+            }
+        } else {
+            // Direct APK download
+            console.log('APK Download initiated via Google Drive');
+            showNotification('Redirecting to Google Drive for download...', 'success');
+
+            // Track download event
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'download', {
+                    'event_category': 'APK',
+                    'event_label': 'UK Exam Pro APK - Google Drive',
+                    'value': 1
+                });
+            }
         }
     });
 });
